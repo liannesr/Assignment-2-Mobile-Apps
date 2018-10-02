@@ -100,8 +100,8 @@ public class QuestionListFragment extends Fragment {
 
         public QuestionHolder(LayoutInflater inflater, ViewGroup parent){
             super(inflater.inflate(R.layout.question_list_item,parent,false));
-            itemView.setOnClickListener(this);
             questionTextView = (TextView) itemView.findViewById(R.id.question_name);
+            questionTextView.setOnClickListener(v->onClick(v));
         }
 
         public void bind(Question question, int position){
