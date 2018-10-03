@@ -43,6 +43,7 @@ public class QuestionListFragment extends Fragment {
         questionView = rootView.findViewById(R.id.question_name);
         mRecyclerView = rootView.findViewById(R.id.recycler_questions);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         updateUI();
         Bundle args = getArguments();
         if(args != null){
@@ -64,13 +65,14 @@ public class QuestionListFragment extends Fragment {
         for (Question question:questionsList) {
             if(question.getCorrectAnswer().equals(question.getAnsweredByUser())){
                 finalScore++;
-                question.getHolder().questionTextView.setBackgroundResource(R.drawable.my_rectangle_green);
+            //    question.getHolder().questionTextView.setBackgroundResource(R.drawable.my_rectangle_green);
             }
             else{
-                question.getHolder().questionTextView.setBackgroundResource(R.drawable.my_rectangle_red);
+              //  question.getHolder().questionTextView.setBackgroundResource(R.drawable.my_rectangle_red);
             }
         }
         Toast.makeText(getActivity(),"Final Score! "+ finalScore,Toast.LENGTH_SHORT).show();
+        questionView.setClickable(false);
         sendEmailButton.setEnabled(true);
     }
 

@@ -74,6 +74,7 @@ public class SingleQuestionFragment extends Fragment {
             radioArray[i].setText(shuffled.get(i));
         }
         if(previousSelection!=null){
+            selection=previousSelection;
             for(int i=0;i<radioArray.length;i++){
                 if(radioArray[i].getText().toString().equals(previousSelection)){radioArray[i].setChecked(true);}
             }
