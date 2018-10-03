@@ -166,6 +166,12 @@ public class QuestionListFragment extends Fragment {
         public void onBindViewHolder(QuestionHolder holder, int position){
             Question question = mQuestions.get(position);
             holder.bind(question,position);
+            if(question.getAnsweredByUser()!=null){
+                question.getHolder().questionTextView.setBackgroundResource(R.drawable.my_rectangle_blue);
+            }
+            else{
+                question.getHolder().questionTextView.setBackgroundResource(R.drawable.my_rectangle);
+            }
         }
         @Override
         public int getItemCount(){
