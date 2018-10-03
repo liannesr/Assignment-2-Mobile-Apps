@@ -20,11 +20,14 @@ import java.util.ArrayList;
 public class QuestionListFragment extends Fragment {
 
     private static final String ARG_QUESTION = "ARG_QUESTION";
+    private static final String ARG_OPTIONS = "ARG_OPTIONS";
+    private static String ARG_SELECTED = "ARG_SELECTED";
+
     private TextView questionView;
     private OnQuestionClickedListener answerListener;
     private RecyclerView mRecyclerView;
     private QuestionAdapter qAdapter;
-    public static ArrayList<Question> questionsList;
+    public  ArrayList<Question> questionsList;
 
     public QuestionListFragment() {
         // Required empty public constructor
@@ -38,8 +41,7 @@ public class QuestionListFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_question_list, container, false);
         questionView = rootView.findViewById(R.id.question_name);
-
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_questions);
+        mRecyclerView = rootView.findViewById(R.id.recycler_questions);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         updateUI();
 
@@ -53,16 +55,18 @@ public class QuestionListFragment extends Fragment {
         return rootView;
     }
 
-    static QuestionListFragment createFragmentWith(Question question){
-        QuestionListFragment frag = new QuestionListFragment();
+   public static SingleQuestionFragment createFragmentWith(Question question){
+        SingleQuestionFragment frag = new SingleQuestionFragment();
         Bundle args = new Bundle();
         args.putString(ARG_QUESTION,question.getQuestion());
+        args.putStringArray(ARG_OPTIONS,question.getOptions());
+        args.putString(ARG_SELECTED, question.getAnsweredByUser());
         frag.setArguments(args);
         return frag;
     }
 
-    interface OnQuestionClickedListener {
-        void onQuestionClicked();
+    public interface OnQuestionClickedListener {
+        void onQuestionClicked(View view, Question question);
     }
 
 
@@ -101,16 +105,17 @@ public class QuestionListFragment extends Fragment {
         public QuestionHolder(LayoutInflater inflater, ViewGroup parent){
             super(inflater.inflate(R.layout.question_list_item,parent,false));
             questionTextView = (TextView) itemView.findViewById(R.id.question_name);
-            questionTextView.setOnClickListener(v->onClick(v));
+            questionTextView.setOnClickListener(v-> answerListener.onQuestionClicked(v, questionIn));
         }
 
         public void bind(Question question, int position){
             questionIn = question;
-            questionTextView.setText("Question #"+position+ "\n"+question.getQuestion().toString());
+            questionTextView.setText("Question #"+(position+1)+ "\n"+question.getQuestion().toString());
         }
 
         @Override
         public void onClick(View view){
+
             Toast.makeText(getActivity(),questionIn.getQuestion().toString()+" clicked!",Toast.LENGTH_SHORT).show();
         }
     }

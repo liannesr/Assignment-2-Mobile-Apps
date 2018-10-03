@@ -2,11 +2,12 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
     tools:context=".SingleQuestionFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/question_text"
         android:layout_width="wrap_content"
@@ -19,37 +20,40 @@
         app:layout_constraintBottom_toTopOf="@id/radio_group"/>
 
     <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center_horizontal"
         android:id="@+id/radio_group"
         app:layout_constraintTop_toBottomOf="@id/question_text"
-        app:layout_constraintBottom_toTopOf="@id/submit_button"
+        app:layout_constraintBottom_toTopOf="@id/submit_question_button"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+
         >
         <RadioButton android:id="@+id/radio_country_one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="lol"/>
-        <!--android:onClick="onRadioButtonClicked"-->
-
+            android:text="lol"
+            />
         <RadioButton android:id="@+id/radio_country_two"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="lol"/>
+            android:text="lol"
+            />
         <RadioButton android:id="@+id/radio_country_three"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="lol"/>
+            android:text="lol"
+            />
         <RadioButton android:id="@+id/radio_country_four"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="lol"/>
-        <!--?\ android:onClick="onRadioButtonClicked"-->
+            android:text="lol"
+            />
     </RadioGroup>
 
     <Button
-        android:id= "@+id/submit_button"
+        android:id= "@+id/submit_question_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/radio_group"

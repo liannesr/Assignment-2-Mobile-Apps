@@ -1,35 +1,48 @@
 package com.techexchange.mobileapps.assignment2;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import com.techexchange.mobileapps.assignment2.QuestionListFragment.OnQuestionClickedListener;
+import com.techexchange.mobileapps.assignment2.SingleQuestionFragment.OnSubmitSingleQuestionClickedListener;
+import android.view.View;
 import android.widget.Toast;
-public class MainActivity extends AppCompatActivity implements OnQuestionClickedListener {
+public class MainActivity extends AppCompatActivity implements OnQuestionClickedListener, OnSubmitSingleQuestionClickedListener {
 
+    public Fragment questionFrag;
+    public Fragment listFrag;
+    public FragmentManager fm;
+    public Question questionMain;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment frag = fm.findFragmentById(R.id.fragment);
+        fm = getSupportFragmentManager();
+        listFrag = fm.findFragmentById(R.id.fragment_list);
+        questionFrag = fm.findFragmentById(R.id.fragment_single_question);
 
-        if(frag==null){
-            frag = new QuestionListFragment();
-            fm.beginTransaction().add(R.id.fragment,frag).commit();
+        if(listFrag==null) {
+            listFrag = new QuestionListFragment();
+            questionFrag = new SingleQuestionFragment();
+            fm.beginTransaction().add(R.id.fragment_list, listFrag).commit();
         }
-        //viewPager = findViewById(R.id.question_pager);
-        //myAdapter = new QuestionListFragmentAdapter(getSupportFragmentManager());
-        //myAdapter = new QuestionListFragmentAdapter(getSupportFragmentManager());
-        //viewPager.setAdapter(myAdapter);
-
     }
 
     @Override
-    public void onQuestionClicked() {
-        Toast.makeText(MainActivity.this, "Wrong!", Toast.LENGTH_SHORT).show();
+    public void onQuestionClicked(View view, Question question) {
+        questionMain = question;
+        questionFrag = QuestionListFragment.createFragmentWith(question);
+        fm.beginTransaction().replace(R.id.fragment_single_question,questionFrag).addToBackStack(null).commit();
     }
+
+    @Override
+    public void onSubmitSingleQuestionClicked(View view, String selectedAnswer){
+        questionMain.setAnsweredByUser(selectedAnswer);
+        fm.beginTransaction().remove(questionFrag).commit();
+    }
+
+
+
 }
 
