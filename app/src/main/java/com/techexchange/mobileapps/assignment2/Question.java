@@ -8,7 +8,7 @@ public class Question {
     private final String[] wrongAnswers = new String[3];
     private String answeredByUser;
     private final String[] options = new String[4];
-    private QuestionListFragment.QuestionHolder holder=null;
+    private QuestionListFragment.QuestionHolder holder;
 
     public Question(String question, String correctAnswer, String[] wrongAnswers) {
         this.question = question;

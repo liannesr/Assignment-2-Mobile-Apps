@@ -14,14 +14,12 @@ import android.widget.Toast;
 import java.io.InputStream;
 import java.util.ArrayList;
 import android.widget.Button;
-import com.techexchange.mobileapps.assignment2.MainActivity;
 
 public class QuestionListFragment extends Fragment {
 
     private static final String ARG_QUESTION = "ARG_QUESTION";
     private static final String ARG_OPTIONS = "ARG_OPTIONS";
     private static String ARG_SELECTED = "ARG_SELECTED";
-
     private TextView questionView;
     private View rootView;
     private OnQuestionClickedListener answerListener;
@@ -30,6 +28,7 @@ public class QuestionListFragment extends Fragment {
     public  ArrayList<Question> questionsList;
     private Button submitQuizButton, sendEmailButton;
     private int finalScore;
+    public boolean isSubmitted;
 
     public QuestionListFragment() {
         // Required empty public constructor
@@ -43,16 +42,15 @@ public class QuestionListFragment extends Fragment {
         questionView = rootView.findViewById(R.id.question_name);
         mRecyclerView = rootView.findViewById(R.id.recycler_questions);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         updateUI();
+        isSubmitted = false;
         Bundle args = getArguments();
         if(args != null){
             questionView.setText(args.getString(ARG_QUESTION));
-           // if(args.get(ARG_SELECTED)!=null){questionView.setBackgroundResource(R.drawable.my_rectangle_blue);}
         }
 
         submitQuizButton = rootView.findViewById(R.id.submit_button);
-        submitQuizButton.setOnClickListener(v -> submitQuizCliked(v));
+        submitQuizButton.setOnClickListener(v -> submitQuizClicked(v));
 
         sendEmailButton = rootView.findViewById(R.id.send_email_button);
         sendEmailButton.setOnClickListener(v -> sendEmailClicked(v));
@@ -61,18 +59,29 @@ public class QuestionListFragment extends Fragment {
         return rootView;
     }
 
-    public void submitQuizCliked(View view){
+    public void submitQuizClicked(View view){
+        isSubmitted = true;
+        finalScore=0;
         for (Question question:questionsList) {
-            if(question.getCorrectAnswer().equals(question.getAnsweredByUser())){
-                finalScore++;
-            //    question.getHolder().questionTextView.setBackgroundResource(R.drawable.my_rectangle_green);
-            }
-            else{
-              //  question.getHolder().questionTextView.setBackgroundResource(R.drawable.my_rectangle_red);
+            QuestionHolder holder = question.getHolder();
+            if(holder!=null){
+                if (question.getAnsweredByUser() != null) {
+                    if (question.getCorrectAnswer().equals(question.getAnsweredByUser())) {
+                        finalScore++;
+                        holder.questionTextView.setBackgroundResource(R.drawable.my_rectangle_green);
+
+                    } else {
+                        holder.questionTextView.setBackgroundResource(R.drawable.my_rectangle_red);
+                    }
+                    question.getHolder().questionTextView.setClickable(false);
+                } else {
+                    if(holder != null) {
+                        holder.questionTextView.setBackgroundResource(R.drawable.my_rectangle_red);
+                        holder.questionTextView.setClickable(false);
+                    }
+                }
             }
         }
-        Toast.makeText(getActivity(),"Final Score! "+ finalScore,Toast.LENGTH_SHORT).show();
-        questionView.setClickable(false);
         sendEmailButton.setEnabled(true);
     }
 
@@ -168,11 +177,20 @@ public class QuestionListFragment extends Fragment {
         public void onBindViewHolder(QuestionHolder holder, int position){
             Question question = mQuestions.get(position);
             holder.bind(question,position);
-            if(question.getAnsweredByUser()!=null){
-                question.getHolder().questionTextView.setBackgroundResource(R.drawable.my_rectangle_blue);
+            if(isSubmitted){
+                if (question.getAnsweredByUser() != null) {
+                    question.getHolder().questionTextView.setBackgroundResource(R.drawable.my_rectangle_green);
+                } else {
+                    question.getHolder().questionTextView.setBackgroundResource(R.drawable.my_rectangle_red);
+                }
+                question.getHolder().questionTextView.setClickable(false);
             }
-            else{
-                question.getHolder().questionTextView.setBackgroundResource(R.drawable.my_rectangle);
+            else {
+                if (question.getAnsweredByUser() != null) {
+                    question.getHolder().questionTextView.setBackgroundResource(R.drawable.my_rectangle_blue);
+                } else {
+                    question.getHolder().questionTextView.setBackgroundResource(R.drawable.my_rectangle);
+                }
             }
         }
         @Override
