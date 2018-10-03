@@ -26,7 +26,7 @@ public class SingleQuestionFragment extends Fragment {
     private static final String ARG_QUESTION = "ARG_QUESTION";
     private static final String ARG_OPTIONS = "ARG_OPTIONS";
     private String ARG_SELECTED = "ARG_SELECTED";
-    private String selection = null;
+    private String selection;
     public SingleQuestionFragment() {
         // Required empty public constructor
     }
@@ -55,7 +55,6 @@ public class SingleQuestionFragment extends Fragment {
         radioArray[3] = optionFour;
 
         submit = rootView.findViewById(R.id.submit_question_button);
-
         submit.setOnClickListener(v -> answerListener.onSubmitSingleQuestionClicked(v,selection));
 
         bundle = this.getArguments();
@@ -76,7 +75,6 @@ public class SingleQuestionFragment extends Fragment {
         }
         if(previousSelection!=null){
             for(int i=0;i<radioArray.length;i++){
-                String whatsIn = radioArray[i].getText().toString();
                 if(radioArray[i].getText().toString().equals(previousSelection)){radioArray[i].setChecked(true);}
             }
         }

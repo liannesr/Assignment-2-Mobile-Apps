@@ -1,4 +1,6 @@
 package com.techexchange.mobileapps.assignment2;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -39,9 +41,14 @@ public class MainActivity extends AppCompatActivity implements OnQuestionClicked
     @Override
     public void onSubmitSingleQuestionClicked(View view, String selectedAnswer){
         questionMain.setAnsweredByUser(selectedAnswer);
+        if(questionMain.getAnsweredByUser()!=null){
+            questionMain.getHolder().questionTextView.setBackgroundResource(R.drawable.my_rectangle_blue);
+        }
+        else{
+            questionMain.getHolder().questionTextView.setBackgroundResource(R.drawable.my_rectangle);
+        }
         fm.beginTransaction().remove(questionFrag).commit();
     }
-
 
 
 }
