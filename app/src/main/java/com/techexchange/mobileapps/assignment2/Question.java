@@ -1,7 +1,4 @@
 package com.techexchange.mobileapps.assignment2;
-
-import android.support.v7.widget.RecyclerView;
-
 public class Question {
     private final String question;
     private final String correctAnswer;

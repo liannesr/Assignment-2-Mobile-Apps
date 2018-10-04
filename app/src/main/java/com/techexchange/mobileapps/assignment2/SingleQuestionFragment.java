@@ -22,7 +22,6 @@ public class SingleQuestionFragment extends Fragment {
     String question,previousSelection;
     String[] options;
     Bundle bundle;
-
     private static final String ARG_QUESTION = "ARG_QUESTION";
     private static final String ARG_OPTIONS = "ARG_OPTIONS";
     private String ARG_SELECTED = "ARG_SELECTED";
@@ -32,8 +31,7 @@ public class SingleQuestionFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_single_question, container, false);
         questionText = rootView.findViewById(R.id.question_text);

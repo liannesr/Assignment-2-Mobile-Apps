@@ -6,7 +6,6 @@ import android.os.Bundle;
 import com.techexchange.mobileapps.assignment2.QuestionListFragment.OnQuestionClickedListener;
 import com.techexchange.mobileapps.assignment2.SingleQuestionFragment.OnSubmitSingleQuestionClickedListener;
 import android.view.View;
-import android.widget.Toast;
 public class MainActivity extends AppCompatActivity implements OnQuestionClickedListener, OnSubmitSingleQuestionClickedListener {
 
     public Fragment questionFrag;
@@ -17,11 +16,9 @@ public class MainActivity extends AppCompatActivity implements OnQuestionClicked
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         fm = getSupportFragmentManager();
         listFrag = fm.findFragmentById(R.id.fragment_list);
         questionFrag = fm.findFragmentById(R.id.fragment_single_question);
-
         if(listFrag==null) {
             listFrag = new QuestionListFragment();
             questionFrag = new SingleQuestionFragment();
@@ -46,8 +43,6 @@ public class MainActivity extends AppCompatActivity implements OnQuestionClicked
             questionMain.getHolder().questionTextView.setBackgroundResource(R.drawable.my_rectangle);
         }
         fm.beginTransaction().remove(questionFrag).commit();
+        fm.popBackStack();
     }
-
-
 }
-

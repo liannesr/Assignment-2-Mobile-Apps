@@ -19,15 +19,15 @@ public class QuestionListFragment extends Fragment {
 
     private static final String ARG_QUESTION = "ARG_QUESTION";
     private static final String ARG_OPTIONS = "ARG_OPTIONS";
-    private static String ARG_SELECTED = "ARG_SELECTED";
-    private TextView questionView;
-    private View rootView;
-    private OnQuestionClickedListener answerListener;
-    private RecyclerView mRecyclerView;
-    private QuestionAdapter qAdapter;
+    private static final String ARG_SELECTED = "ARG_SELECTED";
+    public TextView questionView;
+    public View rootView;
+    public OnQuestionClickedListener answerListener;
+    public RecyclerView mRecyclerView;
+    public QuestionAdapter qAdapter;
     public  ArrayList<Question> questionsList;
-    private Button submitQuizButton, sendEmailButton;
-    private int finalScore;
+    public Button submitQuizButton, sendEmailButton;
+    public int finalScore;
     public boolean isSubmitted;
 
     public QuestionListFragment() {
@@ -51,7 +51,6 @@ public class QuestionListFragment extends Fragment {
 
         submitQuizButton = rootView.findViewById(R.id.submit_button);
         submitQuizButton.setOnClickListener(v -> submitQuizClicked(v));
-
         sendEmailButton = rootView.findViewById(R.id.send_email_button);
         sendEmailButton.setOnClickListener(v -> sendEmailClicked(v));
         sendEmailButton.setEnabled(false);
@@ -75,10 +74,8 @@ public class QuestionListFragment extends Fragment {
                     }
                     question.getHolder().questionTextView.setClickable(false);
                 } else {
-                    if(holder != null) {
-                        holder.questionTextView.setBackgroundResource(R.drawable.my_rectangle_red);
-                        holder.questionTextView.setClickable(false);
-                    }
+                    holder.questionTextView.findViewById(R.id.question_name).setBackgroundResource(R.drawable.my_rectangle_red);
+                    holder.questionTextView.findViewById(R.id.question_name).setClickable(false);
                 }
             }
         }
@@ -117,13 +114,10 @@ public class QuestionListFragment extends Fragment {
         void onQuestionClicked(View view, Question question);
     }
 
-
     public ArrayList<Question> getList(){
-        InputStream ins = getResources().openRawResource(
-                getResources().getIdentifier("countrylist",
+        InputStream ins = getResources().openRawResource(getResources().getIdentifier("countrylist",
                         "raw", getActivity().getPackageName()));
-        InputStream ins2 = getResources().openRawResource(
-                getResources().getIdentifier("countrylist",
+        InputStream ins2 = getResources().openRawResource(getResources().getIdentifier("countrylist",
                         "raw", getActivity().getPackageName()));
         QuestionListFactory.generateCountriesList(ins);
         return QuestionListFactory.genratingList(ins2);
@@ -152,24 +146,25 @@ public class QuestionListFragment extends Fragment {
 
         public QuestionHolder(LayoutInflater inflater, ViewGroup parent){
             super(inflater.inflate(R.layout.question_list_item,parent,false));
-            questionTextView = (TextView) itemView.findViewById(R.id.question_name);
+            questionTextView = itemView.findViewById(R.id.question_name);
             questionTextView.setOnClickListener(v-> answerListener.onQuestionClicked(v, questionIn));
         }
 
         public void bind(Question question, int position){
             questionIn = question;
             question.setHolder(this);
-            questionTextView.setText("Question #"+(position+1)+ "\n"+question.getQuestion().toString());
+            String questionText = "Question #"+(position+1)+ "\n"+question.getQuestion();
+            questionTextView.setText(questionText);
         }
     }
 
     public class QuestionAdapter extends RecyclerView.Adapter<QuestionHolder>{
         private ArrayList<Question> mQuestions;
-        public QuestionAdapter(ArrayList<Question> questions){
+        private QuestionAdapter(ArrayList<Question> questions){
             mQuestions = questions;
         }
         @Override
-        public QuestionHolder onCreateViewHolder(ViewGroup parent, int viewType){
+        public QuestionHolder onCreateViewHolder( ViewGroup parent, int viewType){
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
             return new QuestionHolder(layoutInflater,parent);
         }
